@@ -1,0 +1,25 @@
+{% extends 'catalog/main.html' %}
+{% block title %}{{ object.name }}{% endblock %}
+{% block content %}
+<div class="card text-center">
+  <div class="card-header">
+    <img src="{{ product.image.url }}" height="250">
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">{{ object.name }}</h5>
+    <p class="card-text">{{ object.description|truncatechars:60 }}</p>
+    <p class="card-text">Цена в рублях за единицу: {{ object.price }}</p>
+  </div>
+  <div class="card-footer text-body-secondary">
+    <div class="btn">
+      {% if user == object.owner or perms.catalog.can_delete_product %}
+      <a role="button" class="btn btn-danger" href= "{% url 'catalog:product_delete' product.pk %}">Удалить</a>
+      {% endif %}
+      {% if user == object.owner or perms.catalog.can_unpublish_product %}
+      <a role="button" class="btn btn-primary" href= "{% url 'catalog:product_update' product.pk %}">Изменить</a>
+      {% endif %}
+      <a role="button" class="btn btn-secondary" href= "{% url 'catalog:product_list' %}">Назад</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
